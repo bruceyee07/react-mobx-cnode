@@ -1,0 +1,28 @@
+.nav-tab
+	position fixed
+	top 0
+	width 100%
+	z-index 1
+	list-style none
+	li
+		display block
+		float left
+		width 20%
+		text-align center
+		cursor pointer
+		background-color rgba(51, 51, 51, 0.8)
+		height 40px
+		line-height 40px
+		color #fdf4da
+		border-right 1px solid #fff
+		box-sizing border-box
+		&:last-child 
+			border-right none
+	li.active
+		border-bottom 2px solid #f7e31b
+	&:after
+		display block
+		clear both
+		content ""
+		visibility hidden
+		height 0

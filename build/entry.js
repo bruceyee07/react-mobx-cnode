@@ -25873,7 +25873,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ className: 'homepage-wrapper' },
-					_react2.default.createElement(_NavTab2.default, { handleClickTab: this.handleClickTab }),
+					_react2.default.createElement(_NavTab2.default, { currentTab: topicList.tab, handleClickTab: this.handleClickTab }),
 					_react2.default.createElement(_TopicList2.default, { topicList: topicList })
 				);
 			}
@@ -25885,6 +25885,7 @@
 				var limit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 20;
 
 				topicList.isFetching = true;
+				topicList.tab = tab;
 
 				fetch('https://cnodejs.org/api/v1/topics?tab=' + tab + '&page=' + page + '&limit=' + limit + '&mdrender=false').then(function (res) {
 					return res.json();
@@ -25896,7 +25897,7 @@
 		}, {
 			key: 'handleClickTab',
 			value: function handleClickTab(tab) {
-				console.log(tab.code);
+				this.fetchTopics(tab, 1);
 			}
 		}]);
 
@@ -29977,11 +29978,6 @@
 		code: 'job'
 	}];
 
-	var currentTab = (0, _mobx.observable)({
-		title: '全部',
-		code: 'all'
-	});
-
 	var NavTab = (0, _mobxReact.observer)(_class = function (_Component) {
 		_inherits(NavTab, _Component);
 
@@ -30004,9 +30000,9 @@
 							'li',
 							{
 								key: tab.code,
-								className: (0, _classnames2.default)({ active: tab.code == currentTab.code }),
+								className: (0, _classnames2.default)({ active: tab.code == _this2.props.currentTab }),
 								onClick: function onClick() {
-									return _this2.props.handleClickTab(tab);
+									return _this2.props.handleClickTab(tab.code);
 								}
 							},
 							tab.title
@@ -30777,7 +30773,7 @@
 											},
 											_react2.default.createElement('img', {
 												className: 'avatar',
-												src: topic.author['avatar_url'],
+												src: topic.author['avatar_url'].indexOf('https:') > -1 ? topic.author['avatar_url'] : 'https:' + topic.author['avatar_url'],
 												alt: topic.author['loginname'],
 												onClick: function onClick() {
 													return _this2.props.handleClickUserAvatar(topic.author['loginname']);

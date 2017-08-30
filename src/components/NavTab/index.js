@@ -28,11 +28,6 @@ const TABS = [
 	}
 ]
 
-let currentTab = observable({
-	title: '全部',
-	code: 'all'
-})
-
 @observer
 class NavTab extends Component {
 	render () {
@@ -41,8 +36,8 @@ class NavTab extends Component {
 				{TABS.map(tab => 
 					<li
 						key={tab.code}
-						className={cx({ active: tab.code == currentTab.code })}
-						onClick={() => this.props.handleClickTab(tab)}
+						className={cx({ active: tab.code == this.props.currentTab })}
+						onClick={() => this.props.handleClickTab(tab.code)}
 					>
 						{tab.title}
 					</li>

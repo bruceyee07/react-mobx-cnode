@@ -53,7 +53,7 @@ class TopicList extends Component {
 	          				>
 		          				<img 
 		          					className="avatar" 
-		          					src={topic.author['avatar_url']} 
+		          					src={topic.author['avatar_url'].indexOf('https:') > -1 ? topic.author['avatar_url'] : 'https:' + topic.author['avatar_url']} 
 		          					alt={topic.author['loginname']} 
 		          					onClick={() => this.props.handleClickUserAvatar(topic.author['loginname'])}
 	          					/>

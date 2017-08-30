@@ -26,12 +26,13 @@ class HomePage extends Component {
 	}
 	render () {
 		return <div className="homepage-wrapper">
-			<NavTab handleClickTab={this.handleClickTab} />
+			<NavTab currentTab={topicList.tab} handleClickTab={this.handleClickTab} />
 			<TopicList topicList={topicList} />
 		</div>
 	}
 	@action fetchTopics (tab = 'all', page = 1, limit = 20) {
 		topicList.isFetching = true
+		topicList.tab = tab
 
 		fetch(`https://cnodejs.org/api/v1/topics?tab=${tab}&page=${page}&limit=${limit}&mdrender=false`)
 			.then(res => res.json())
@@ -41,7 +42,7 @@ class HomePage extends Component {
 			})
 	}
 	@action handleClickTab (tab) {
-		console.log(tab.code)
+		this.fetchTopics(tab, 1)
 	}
 }
 

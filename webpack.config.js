@@ -3,23 +3,21 @@ const path = require('path')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
 module.exports = {
-	entry: {
-		'index': './src/index.js'
-	},
+	entry: './src/index.js',
 	output: {
 		path: path.resolve(__dirname, 'build'),
-		filename: 'entry.js'
+		filename: 'bundle.js'
 	},
 	plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new OpenBrowserPlugin({ url: 'http://localhost:9999' })
   ],
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.jsx?$/,
 				loader: 'babel-loader',
-				query: {
+				options: {
 					presets: ['es2015', 'react', 'stage-0'],
 					plugins: [
 	          'transform-decorators-legacy' //支持es7里面的decorators

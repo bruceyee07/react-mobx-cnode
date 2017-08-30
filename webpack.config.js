@@ -1,18 +1,24 @@
-var path = require('path');
+const webpack = require('webpack')
+const path = require('path')
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
 module.exports = {
 	entry: {
 		'index': './src/index.js'
 	},
 	output: {
-		path: './build',
+		path: path.resolve(__dirname, 'build'),
 		filename: 'entry.js'
 	},
+	plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new OpenBrowserPlugin({ url: 'http://localhost:9999' })
+  ],
 	module: {
 		loaders: [
 			{
 				test: /\.jsx?$/,
-				loader: 'babel',
+				loader: 'babel-loader',
 				query: {
 					presets: ['es2015', 'react', 'stage-0'],
 					plugins: [

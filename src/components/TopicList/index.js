@@ -1,51 +1,28 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { observable, computed, action, autorun } from 'mobx'
 import { observer } from 'mobx-react'
 import { prettyDate } from '../../utils'
+import { TABS } from '../../consts'
 import style from './style.styl'
-
-const TABS = [
-	{
-		title: '全部',
-		code: 'all'
-	},
-	{
-		title: '精华',
-		code: 'good',
-	},
-	{
-		title: '分享',
-		code: 'share'
-	},
-	{
-		title: '问答',
-		code: 'ask'
-	},
-	{
-		title: '招聘',
-		code: 'job'
-	}
-]
 
 @observer
 class TopicList extends Component {
 	render () {
-		const { isFetching, topics, handleScroll } = this.props.topicList
+		const { store } = this.props || {}
 		
 		return (
-   		<div className="topic-list-wrapper" onScroll={handleScroll}>
-				{isFetching && topics.length === 0 &&
+   		<div className="topic-list-wrapper">
+				{store.isFetching && store.topics.length === 0 &&
 	        <h2 className="empty">Loading...</h2>
 	      }
-	      {!isFetching && topics.length === 0 &&
+	      {!store.isFetching && store.topics.length === 0 &&
 	        <h2 className="empty">Empty.</h2>
 	      }
-	      {!!topics.length &&
-	        <div style={{ opacity: isFetching ? 0.5 : 1 }}>
+	      {!!store.topics.length &&
+	        <div style={{ opacity: store.isFetching ? 0.5 : 1 }}>
 	          <ul className="topic-list">
-	          	{topics.map(topic => 
+	          	{store.topics.map(topic => 
 	          		<li key={topic.id}>
 	          			<div className="left-wrap">
 	          				<Link

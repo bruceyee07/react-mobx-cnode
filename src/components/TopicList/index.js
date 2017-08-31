@@ -12,7 +12,7 @@ class TopicList extends Component {
 		const { store } = this.props || {}
 		
 		return (
-   		<div className="topic-list-wrapper">
+   		<div className="topic-list-wrapper" onScroll={this.props.handleScroll}>
 				{store.isFetching && store.topics.length === 0 &&
 	        <h2 className="empty">Loading...</h2>
 	      }

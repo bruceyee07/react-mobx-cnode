@@ -10,30 +10,30 @@ import style from './style.styl'
 @observer
 class TopicContent extends Component {
 	componentDidMount() {
-		const { store } = this.props
-		const id = this.props.match.params.id
+		const { store, routes } = this.props
+		const id = routes.match.params.id
 
 		store.fetchTopicDetail(id)
 	}
 	render () {
 		const { store } = this.props
-
+		
 		return (
 		  <div className="topic-content-wrapper">
 		  	<div className="block-item">
 		  		<div className="top-bar">
-		  			<h3 className="title">{(store.currentTopic.detail || {}).title}</h3>
+		  			<h3 className="title">{(store.currentTopic || {}).title}</h3>
 		  			<ul className="topic-info-list">
-		  				<li className="list-item">发布于 {prettyDate((store.currentTopic.detail || {}).create_at)}</li>
-		  				<li className="list-item">作者 {((store.currentTopic.detail || {}).author || {}).loginname}</li>
-		  				<li className="list-item">{(store.currentTopic.detail || {}).visit_count} 次浏览</li>
+		  				<li className="list-item">发布于 {prettyDate((store.currentTopic || {}).create_at)}</li>
+		  				<li className="list-item">作者 {((store.currentTopic || {}).author || {}).loginname}</li>
+		  				<li className="list-item">{(store.currentTopic || {}).visit_count} 次浏览</li>
 		  			</ul>
 		  		</div>
-		  		<div className="topic-content" dangerouslySetInnerHTML={{__html: (store.currentTopic.detail || {}).content}} />
+		  		<div className="topic-content" dangerouslySetInnerHTML={{__html: (store.currentTopic || {}).content}} />
 		  	</div>
-		  	{((store.currentTopic.detail || {}).replies || []).length > 0 && <div className="block-item">
+		  	{((store.currentTopic || {}).replies || []).length > 0 && <div className="block-item">
 		  		<ul className="reply-list">
-	  				{((store.currentTopic.detail || {}).replies || []).map(item => 
+	  				{((store.currentTopic || {}).replies || []).map(item => 
 	  					<li key={item.id} className="list-item">
 	  						<div className="left-content">
 	  							<img className="tiny-avatar" src={item.author.avatar_url} />

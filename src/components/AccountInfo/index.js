@@ -24,7 +24,7 @@ class AccountInfo extends Component {
 		this.handleClickTab = this.handleClickTab.bind(this)
 	}
 	componentDidMount () {
-		const { store } = this.props
+		const { store, routes } = this.props
 		const accountInfo = storeToken('accountInfo')
 
 		if (accountInfo) {
@@ -32,9 +32,11 @@ class AccountInfo extends Component {
 		}
 	}
 	handleLogout () {
-		const { store } = this.props
+		const { store, routes } = this.props
 
-		store.logout()
+		store.logout(() => {
+			this.forceUpdate()
+		})
 	}
 	handleClickTab (code) {
 		this.setState({

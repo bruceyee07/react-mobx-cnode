@@ -11,7 +11,6 @@ import './style.styl'
 class Footer extends Component {
 	render () {
 		const { store } = this.props
-		console.log(store)
 		
 		return (
 			<ul className="nav-footer">

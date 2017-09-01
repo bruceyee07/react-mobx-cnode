@@ -70,6 +70,10 @@ class Store {
 		})
 		.then(setTimeout(() => { this.loginReset = true }, 2000))
 	}
+	@action logout (callback) {
+		deleteToken('accountInfo')
+		callback()
+	}
 
 	@observable userInfo = null
 	@action fetchUserInfo (userName) {

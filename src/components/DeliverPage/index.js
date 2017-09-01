@@ -51,14 +51,14 @@ class DeliverPage extends Component {
 		)
 	}
 	handleSubmit () {
-		const { store } = this.props
+		const { store, routes } = this.props
 		const index = this.refs['deliver-type-select'].selectedIndex
 		const type = this.refs['deliver-type-select'][index].value
 		const title = this.refs['deliver-title-input'].value
 		const content = this.refs['deliver-content-textarea'].value
 
-		store.deliverTopic(accountInfo.token, type, title, content, (id) => {
-			setTimeout(() => { this.props.history.push(`/topic/${id}`) }, 1000)
+		store.deliverTopic(JSON.parse(storeToken('accountInfo')).token, type, title, content, (id) => {
+			setTimeout(() => { routes.history.push(`/topic/${id}`) }, 1000)
 		})
 	}
 }

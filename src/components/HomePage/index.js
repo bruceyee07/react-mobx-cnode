@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { observer } from 'mobx-react'
 import NavTab from '../NavTab'
 import TopicList from '../TopicList'
+import Footer from '../Footer'
 import './style.styl'
 
 @observer
@@ -22,6 +23,7 @@ class HomePage extends Component {
 		return <div className="homepage-wrapper">
 			<NavTab store={store} />
 			<TopicList ref="topic-list" store={store} handleScroll={this.handleScroll} />
+			<Footer store={store} />
 		</div>
 	}
 	handleScroll () {

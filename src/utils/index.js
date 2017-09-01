@@ -39,7 +39,7 @@ export const storeToken = (...args) => {
   if (args.length === 1) {
     return window.localStorage.getItem(args[0])
   }
-  window.localStorage.setItem(args[0], args[1])
+  window.localStorage.setItem(args[0], JSON.stringify(args[1]))
 }
 
 export const deleteToken = (key) => {

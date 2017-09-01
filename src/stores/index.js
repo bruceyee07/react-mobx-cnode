@@ -97,6 +97,27 @@ class Store {
 			}
 		})
 	}
+
+	@observable unReadMsgCount = 0
+	@observable messages = []
+	@action fetchUnreadMessagesCount (token) {
+		fetch(`https://cnodejs.org/api/v1/message/count?accesstoken=${token}`)
+		.then(res => res.json())
+		.then(json => {
+			if (json.success) {
+				this.unReadMsgCount = json.data
+			}
+		})
+	}
+	@action fetchMessages (token) {
+		fetch(`https://cnodejs.org/api/v1/messages?accesstoken=${token}`)
+		.then(res => res.json())
+		.then(json => {
+			if (json.success) {
+				this.messages = json.data
+			}
+		})
+	}
 }
 
 export default Store

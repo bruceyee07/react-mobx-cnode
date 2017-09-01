@@ -1,25 +1,16 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom' 
 import PropTypes from 'prop-types'
+import { observable, computed, action, autorun } from 'mobx'
+import { observer } from 'mobx-react'
 import cx from 'classnames'
 import LinkToLoginPage from '../LinkToLoginPage'
 import Footer from '../Footer'
-import { fetchUserInfo, fetchMessages, fetchUnreadMessagesCount } from '../../actions'
-import { prettyDate } from '../../utils'
+import { prettyDate, storeToken } from '../../utils'
+import { MESSAGE_TABS as TABS } from '../../consts'
 import style from './style.styl'
 
-const TABS = [
-	{
-		code: 'hasnot_read_messages',
-		name: '未读'
-	},
-	{
-		code: 'has_read_messages',
-		name: '已读'
-	}
-]
-
+@observer
 class MessagePage extends Component {
 	constructor (props) {
 		super(props)
@@ -31,18 +22,20 @@ class MessagePage extends Component {
 		this.handleClickTab = this.handleClickTab.bind(this)
 	}
 	componentDidMount () {
-		const { dispatch, accountInfo } = this.props
+		const { store } = this.props
+		const accountInfo = JSON.parse(storeToken('accountInfo'))
 
-		dispatch(fetchUnreadMessagesCount(accountInfo.token))
-		dispatch(fetchMessages(accountInfo.token))
+		store.fetchUnreadMessagesCount(accountInfo.token)
+		store.fetchMessages(accountInfo.token)
 	}
 	handleClickTab (code) {
 		this.setState({ currentTab: code })
 	}
 	render () {
-		const { accountInfo, messagePage } = this.props
+		const { store, unReadMsgCount, messages } = this.props
+		const accountInfo = JSON.parse(storeToken('accountInfo'))
 
-		if (!accountInfo.token) {
+		if (!accountInfo) {
 			return (
 				<div className="account-info-wrapper">
 			  	<LinkToLoginPage />
@@ -66,8 +59,8 @@ class MessagePage extends Component {
 		  							onClick={ () => this.handleClickTab(item.code) }
 	  							>
 	  								{item.name}
-	  								{item.code == 'hasnot_read_messages' && messagePage.unread_count > 0 &&
-	  									<span className="unread-count-tag">{messagePage.unread_count}</span>
+	  								{item.code == 'hasnot_read_messages' && store.unReadMsgCount > 0 &&
+	  									<span className="unread-count-tag">{store.unReadMsgCount}</span>
 	  								}
 	  							</li>
 	  						)
@@ -76,9 +69,9 @@ class MessagePage extends Component {
 		  		</div>
 		  		<div className="message-content">
 		  			{(() => {
-		  				return (messagePage.messages[this.state.currentTab] || []).length > 0 ?
+		  				return (store.messages[this.state.currentTab] || []).length > 0 ?
 		  					<ul className="message-list">
-		  						{(messagePage.messages[this.state.currentTab] || []).map(item => 
+		  						{(store.messages[this.state.currentTab] || []).map(item => 
 		  							<li key={item.id} className="list-item">
 		  								<Link to={`/user/${item.author.loginname}`}>{item.author.loginname}</Link> 回复了你的话题 
 		  								<Link to={`/topic/${item.topic.id}`}> {item.topic.title}</Link>
@@ -90,16 +83,10 @@ class MessagePage extends Component {
 		  			})()}
 		  		</div>
 		  	</div>
-		  	<Footer />
+		  	<Footer store={store} />
 		  </div>
 		)
 	}
 }
 
-const mapStateToProps = state => {
-	const { accountInfo, messagePage } = state
-	
-	return { accountInfo, messagePage }
-}
-
-export default connect(mapStateToProps)(MessagePage)
+export default MessagePage

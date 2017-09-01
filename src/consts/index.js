@@ -73,3 +73,14 @@ export const ACCOUNT_TABS = [
 		name: '回复'
 	}
 ]
+
+export const MESSAGE_TABS = [
+	{
+		code: 'hasnot_read_messages',
+		name: '未读'
+	},
+	{
+		code: 'has_read_messages',
+		name: '已读'
+	}
+]

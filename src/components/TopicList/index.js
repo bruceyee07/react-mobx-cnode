@@ -32,7 +32,6 @@ class TopicList extends Component {
 		          					className="avatar" 
 		          					src={topic.author['avatar_url'].indexOf('https:') > -1 ? topic.author['avatar_url'] : 'https:' + topic.author['avatar_url']} 
 		          					alt={topic.author['loginname']} 
-		          					onClick={() => this.props.handleClickUserAvatar(topic.author['loginname'])}
 	          					/>
 	          				</Link>
 	          			</div>
@@ -43,7 +42,6 @@ class TopicList extends Component {
 		          				<Link 
 			          				to={`/topic/${topic.id}`}
 			          				className="title"
-			          				onClick={() => this.props.handleClickTopic(topic.id)}
 	          					>
 	          						{topic.title}
 	        						</Link>	
